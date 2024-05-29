@@ -4,14 +4,16 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 @Getter
 @Setter
 @Entity
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Product {
 
   @Id
@@ -22,13 +24,19 @@ public class Product {
   private String name;
   private String category;
   private String imageUrl;
+  @JdbcTypeCode(SqlTypes.JSON)
+  private Metadata metadata;
 
-  public Product(Integer id, double price, int weight, String name, String category, String imageUrl) {
-    this.id = id;
-    this.price = price;
-    this.weight = weight;
-    this.name = name;
-    this.category = category;
-    this.imageUrl = imageUrl;
+  @Data
+  @NoArgsConstructor
+  @AllArgsConstructor
+  public static class Metadata {
+    private String unit;
+    private int weight;
+    private int calorie;
+    private double proteins;
+    private double fats;
+    private int increment;
+    private int carbs;
   }
 }
