@@ -47,12 +47,25 @@ public class Product {
   @AllArgsConstructor
   public static class Metadata {
 
+    @NotBlank(message = "Unit must be provided")
     private String unit;
+
+    @Min(value = 0, message = "Value must be valid")
     private int weight;
+
+    @Min(value = 0, message = "Value must be valid")
     private int calorie;
+
+    @Min(value = 0, message = "Value must be valid")
     private double proteins;
+
+    @Min(value = 0, message = "Value must be valid")
     private double fats;
+
+    @Min(value = 0, message = "Value must be valid")
     private int increment;
+
+    @Min(value = 0, message = "Value must be valid")
     private int carbs;
   }
 }

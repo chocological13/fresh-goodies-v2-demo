@@ -27,6 +27,7 @@ public class Response<T> {
 
   }
 
+
   public static <T> ResponseEntity<Response<Object>> failedResponse(String message) {
     return failedResponse(HttpStatus.BAD_REQUEST.value(), message, null);
   }

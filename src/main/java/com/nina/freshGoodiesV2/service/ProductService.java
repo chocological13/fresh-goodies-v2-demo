@@ -2,7 +2,9 @@ package com.nina.freshGoodiesV2.service;
 
 import com.nina.freshGoodiesV2.entity.Product;
 import com.nina.freshGoodiesV2.repository.ProductRepository;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 import org.springframework.stereotype.Service;
@@ -16,17 +18,16 @@ public class ProductService {
 
   private final ProductRepository productRepository;
 
-//  public String doesItRun() {
-//    List<Product> productList = productRepository.findAll();
-//    if (productList != null) {
-//      return "Ayeeeeee";
-//    } else {
-//      return "No products yet";
-//    }
-//  }
+  public  List<Product> getProduct(String searchProduct, String searchValue) {
+    if (searchProduct == null && searchValue == null) {
+      return productRepository.findAll();
+    } else {
+      return productRepository.findByNameContainingOrCategoryContainingIgnoreCase(searchProduct, searchValue);
+    }
+  }
 
-  public List<Product> getAllProduct() {
-    return productRepository.findAll();
+  public Optional<Product> getProductById(Long productId) {
+    return productRepository.findById(productId);
   }
 
   public Product addProduct(@RequestBody Product newProduct) {
