@@ -5,15 +5,14 @@ import com.nina.freshGoodiesV2.responses.Response;
 import com.nina.freshGoodiesV2.service.ProductService;
 import java.util.List;
 import java.util.Optional;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -44,16 +43,30 @@ public class ProductController {
     if (productFound.isPresent()) {
       return Response.successfulResponse(HttpStatus.OK.value(), "Found it!", productFound);
     } else {
-      return Response.failedResponse(HttpStatus.NOT_FOUND.value(), "It doesn't exist!");
+      return Response.failedResponse(HttpStatus.NOT_FOUND.value(), "Naurrrrrr! It doesn't exist!");
+    }
   }
-}
 
-@PostMapping
-public ResponseEntity<Response<Product>> addProduct(@Validated @RequestBody Product newProduct) {
-  Product createdProduct = productService.addProduct(newProduct);
+  @PostMapping
+  public ResponseEntity<Response<Product>> addProduct(@Validated @RequestBody Product newProduct) {
+    Product createdProduct = productService.addProduct(newProduct);
 
-  return Response.successfulResponse(HttpStatus.CREATED.value(), "heh", newProduct);
-}
+    return Response.successfulResponse(HttpStatus.CREATED.value(), "heh", newProduct);
+  }
+
+//  @PutMapping("/updated/{productId}")
+//  public ResponseEntity<Response<Product>> updateProduct(@PathVariable  Long productID,
+//      @RequestBody Product updatedProduct) {
+//    try {
+//      Product existingProduct = productService.updateProduct(productID, updatedProduct);
+//      return Response.successfulResponse(HttpStatus.CREATED.value(), "Product Updated!", existingProduct);
+//    } catch (Exception e) {
+//      return Response.failedResponse(HttpStatus.BAD_REQUEST.value(), "Something went wrong");
+//    }
+//
+//  }
+
+
 }
 
 

@@ -20,7 +20,7 @@ import org.hibernate.type.SqlTypes;
 public class Product {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+//  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
   @Min(value = 0, message = "Price must be valid")
