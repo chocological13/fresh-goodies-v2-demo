@@ -1,6 +1,6 @@
 package com.nina.freshGoodiesV2.product.service;
 
-import com.nina.freshGoodiesV2.product.model.Product;
+import com.nina.freshGoodiesV2.product.entity.Product;
 import com.nina.freshGoodiesV2.product.repository.ProductRepository;
 import java.util.List;
 import java.util.Optional;
@@ -9,69 +9,18 @@ import lombok.extern.java.Log;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@Service
-@RequiredArgsConstructor
-@Log
-public class ProductService {
+public interface ProductService {
 
+  List<Product> getProduct(String searchQuery, String searchValue);
 
-  private final ProductRepository productRepository;
-
-  public List<Product> getProduct(String searchQuery, String searchValue) {
-    if (searchQuery == null && searchValue == null) {
-      return productRepository.findAll();
-    } else if (searchQuery == null || searchValue == null) {
-      throw new RuntimeException("Enter all queries");
-    } else {
-      if (searchQuery.equals("name")) {
-        return productRepository.findByNameContainingIgnoreCase(searchValue);
-      } else if (searchQuery.equals("category")) {
-        return productRepository.findByCategoryContainingIgnoreCase(searchValue);
-      } else {
-        throw new RuntimeException("Invalid search query!");
-      }
-    }
-  }
-
-  public Optional<Product> getProductById(Long productId) {
-    return productRepository.findById(productId);
-  }
+  Optional<Product> getProductById(Long productId);
 
   // POST
-  public Product addProduct(@RequestBody Product newProduct) {
-    if (productRepository.findById(newProduct.getId()).isPresent()) {
-      try {
-        throw new Exception("Product by this ID already exists!");
-      } catch (Exception e) {
-        throw new RuntimeException(e);
-      }
-    }
-    return productRepository.save(newProduct);
-  }
+  Product addProduct(Product newProduct);
 
   // PUT
-  public Product updateProduct(Long productId, @RequestBody Product updatedProduct) {
-
-    Optional<Product> existingProductOptional = productRepository.findById(productId);
-
-    if (existingProductOptional.isEmpty()) {
-      throw new RuntimeException("Product with ID " + productId + " not found");
-    }
-
-    Product existingProduct = existingProductOptional.get();
-    if (!existingProduct.getId().equals(updatedProduct.getId())) {
-      throw new IllegalArgumentException("Provided ID in request body does not match existing product ID!");
-    }
-
-    return productRepository.save(updatedProduct);
-
-  }
+  Product updateProduct(Long productId, Product updatedProduct);
 
   // DEL
-  public void deleteProduct(Long productId) {
-    if (!productRepository.existsById(productId)) {
-      throw new RuntimeException("Product by that ID does not exist");
-    }
-    productRepository.deleteById(productId);
-  }
+  void deleteProduct(Long productId);
 }

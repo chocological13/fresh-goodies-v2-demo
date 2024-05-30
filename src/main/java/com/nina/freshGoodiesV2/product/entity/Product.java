@@ -1,4 +1,4 @@
-package com.nina.freshGoodiesV2.product.model;
+package com.nina.freshGoodiesV2.product.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -19,6 +19,7 @@ public class Product {
 
   @Id
 //  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @NotNull(message = "Please provide valid ID")
   private Long id;
 
   @Min(value = 0, message = "Price must be valid")

@@ -1,6 +1,6 @@
-package com.nina.freshGoodiesV2.product.controller;
+package com.nina.freshGoodiesV2.product;
 
-import com.nina.freshGoodiesV2.product.model.Product;
+import com.nina.freshGoodiesV2.product.entity.Product;
 import com.nina.freshGoodiesV2.responses.Response;
 import com.nina.freshGoodiesV2.product.service.ProductService;
 import java.util.List;
