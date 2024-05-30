@@ -1,8 +1,8 @@
-package com.nina.freshGoodiesV2.controller;
+package com.nina.freshGoodiesV2.product.controller;
 
-import com.nina.freshGoodiesV2.entity.Product;
+import com.nina.freshGoodiesV2.product.model.Product;
 import com.nina.freshGoodiesV2.responses.Response;
-import com.nina.freshGoodiesV2.service.ProductService;
+import com.nina.freshGoodiesV2.product.service.ProductService;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("api/v1/products")
+@RequestMapping("/api/v1/products")
 public class ProductController {
 
   private final ProductService productService;
@@ -56,17 +56,17 @@ public class ProductController {
     return Response.successfulResponse(HttpStatus.CREATED.value(), "heh", newProduct);
   }
 
-//  @PutMapping("/updated/{productId}")
-//  public ResponseEntity<Response<Product>> updateProduct(@PathVariable  Long productID,
-//      @RequestBody Product updatedProduct) {
-//    try {
-//      Product existingProduct = productService.updateProduct(productID, updatedProduct);
-//      return Response.successfulResponse(HttpStatus.CREATED.value(), "Product Updated!", existingProduct);
-//    } catch (Exception e) {
-//      return Response.failedResponse(HttpStatus.BAD_REQUEST.value(), "Something went wrong");
-//    }
-//
-//  }
+  @PutMapping("/{productId}")
+  public ResponseEntity<Response<Product>> updateProduct(@PathVariable Long productId,
+      @Validated @RequestBody Product updatedProduct) {
+    try {
+      Product existingProduct = productService.updateProduct(productId, updatedProduct);
+      return Response.successfulResponse(HttpStatus.CREATED.value(), "Product Updated!", existingProduct);
+    } catch (Exception e) {
+      return Response.failedResponse(HttpStatus.BAD_REQUEST.value(), "Something went wrong");
+    }
+
+  }
 
   @DeleteMapping("/{productId}")
   public ResponseEntity<Response<Objects>> deleteProduct(@PathVariable Long productId) {

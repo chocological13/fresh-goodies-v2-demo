@@ -1,14 +1,11 @@
-package com.nina.freshGoodiesV2.service;
+package com.nina.freshGoodiesV2.product.service;
 
-import com.nina.freshGoodiesV2.entity.Product;
-import com.nina.freshGoodiesV2.repository.ProductRepository;
-import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
+import com.nina.freshGoodiesV2.product.model.Product;
+import com.nina.freshGoodiesV2.product.repository.ProductRepository;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -53,26 +50,22 @@ public class ProductService {
   }
 
   // PUT
-//  public Product updateProduct(Long productId, @RequestBody Product updatedProduct) {
-//
-//    Optional<Product> existingProductOptional = productRepository.findById(productId);
-//
-//    if (existingProductOptional.isEmpty()) {
-//      try {
-//        throw new Exception(STR."Product with ID \{productId} not found");
-//      } catch (Exception e) {
-//        throw new RuntimeException(e);
-//      }
-//    }
-//
-//    Product existingProduct = existingProductOptional.get();
-//    if (!existingProduct.getId().equals(updatedProduct.getId())) {
-//      throw new IllegalArgumentException("Provided ID in request body does not match existing product ID!");
-//    }
-//
-//    return productRepository.save(updatedProduct);
-//
-//  }
+  public Product updateProduct(Long productId, @RequestBody Product updatedProduct) {
+
+    Optional<Product> existingProductOptional = productRepository.findById(productId);
+
+    if (existingProductOptional.isEmpty()) {
+      throw new RuntimeException("Product with ID " + productId + " not found");
+    }
+
+    Product existingProduct = existingProductOptional.get();
+    if (!existingProduct.getId().equals(updatedProduct.getId())) {
+      throw new IllegalArgumentException("Provided ID in request body does not match existing product ID!");
+    }
+
+    return productRepository.save(updatedProduct);
+
+  }
 
   // DEL
   public void deleteProduct(Long productId) {
