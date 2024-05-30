@@ -1,5 +1,6 @@
 package com.nina.freshGoodiesV2.cart.model;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -20,6 +21,6 @@ public class Cart {
   @GeneratedValue(strategy = GenerationType.SEQUENCE)
   private Long cartId;
 
-  @OneToMany
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "cartItemId")
   private List<CartItem> cartItems;
 }

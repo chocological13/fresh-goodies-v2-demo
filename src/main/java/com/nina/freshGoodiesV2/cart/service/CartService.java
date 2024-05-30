@@ -11,4 +11,9 @@ public interface CartService {
   List<Cart> getAllCarts();
   Optional<Cart> getCartById(Long cartId);
   List<CartItem> getAllCartItems(Long cartId);
+
+  // POST
+  Cart createCart();
+
+  CartItem addCartItem(Long id, Long productId, int quantity);
 }

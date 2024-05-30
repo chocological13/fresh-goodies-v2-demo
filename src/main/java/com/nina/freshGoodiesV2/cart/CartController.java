@@ -12,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,8 +25,13 @@ public class CartController {
   private final CartService cartService;
 
   @GetMapping
-  public List<Cart> getAllCarts() {
-    return cartService.getAllCarts();
+  public ResponseEntity<Response<List<Cart>>> getAllCarts() {
+    List<Cart> cart = cartService.getAllCarts();
+    if (!cart.isEmpty()) {
+      return Response.successfulResponse(HttpStatus.OK.value(), "Carts fetched!", cart);
+    } else {
+      return Response.failedResponse(HttpStatus.NOT_FOUND.value(), "No cart was made yet :(", cart);
+    }
   }
 
   @GetMapping("/{cartId}")
@@ -35,6 +42,13 @@ public class CartController {
     } else {
       return Response.failedResponse(HttpStatus.NOT_FOUND.value(), "Cart doesn't exist :(", cart);
     }
+  }
+
+  @PostMapping
+  public ResponseEntity<Response<Cart>> createCart(@RequestBody CartItem cartItem) {
+    Cart cart = cartService.createCart();
+    cartService.addCartItem(cart.getCartId(), cartItem.getProductId(), cartItem.getQuantity());
+    return Response.successfulResponse(HttpStatus.CREATED.value(), "Cart created, and item added to cart!", cart);
   }
 
 }
