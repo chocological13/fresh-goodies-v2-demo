@@ -24,7 +24,7 @@ public class ProductService {
     if (searchQuery == null && searchValue == null) {
       return productRepository.findAll();
     } else if (searchQuery == null || searchValue == null) {
-        throw new RuntimeException("Enter all queries");
+      throw new RuntimeException("Enter all queries");
     } else {
       if (searchQuery.equals("name")) {
         return productRepository.findByNameContainingIgnoreCase(searchValue);
@@ -77,13 +77,8 @@ public class ProductService {
   // DEL
   public void deleteProduct(Long productId) {
     if (!productRepository.existsById(productId)) {
-      try {
-        throw new Exception("Product by that ID does not exist");
-      } catch (Exception e) {
-        throw new RuntimeException(e);
-      }
+      throw new RuntimeException("Product by that ID does not exist");
     }
-
     productRepository.deleteById(productId);
   }
 }
